@@ -23,4 +23,22 @@ public class BookService {
 		return this.repo.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found - " + id));
 	}
 
+	public Book saveBook(Book book) {
+		return this.repo.save(book);
+	}
+
+	public Book updateBook(Long id, Book updatedBook) {
+		return this.repo.findById(id).map(book -> {
+			book.setTitle(updatedBook.getTitle());
+			book.setAuthor(updatedBook.getAuthor());
+			book.setBestSeller(updatedBook.isBestSeller());
+			book.setGenres(updatedBook.getGenres());
+			return this.repo.save(book);
+		}).orElseThrow(() -> new BookNotFoundException("Book not found - " + id));
+	}
+
+	public void deleteBook(Long id) {
+		this.repo.deleteById(id);
+	}
+
 }
