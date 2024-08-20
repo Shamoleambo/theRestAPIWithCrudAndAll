@@ -38,6 +38,7 @@ public class BookService {
 	}
 
 	public void deleteBook(Long id) {
+		this.repo.findById(id).map(book -> book).orElseThrow(() -> new BookNotFoundException("Book not found - " + id));
 		this.repo.deleteById(id);
 	}
 
